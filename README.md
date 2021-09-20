@@ -1,6 +1,7 @@
 # dockercoins
 
 git clone https://github.com/academiaonline/dockercoins
+
 git checkout 2021-09
 
 for app in hasher rng webui worker

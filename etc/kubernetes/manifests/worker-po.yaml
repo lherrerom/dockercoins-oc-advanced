@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: worker-po
+  labels:
+    app: worker-po
+spec:
+  containers:
+    - name: worker-container
+      args:
+        - worker.py
+      command:
+        - python
+      image: docker.io/academiaonline/dockercoins:latest-worker
+      securityContext:
+        runAsGroup: 65534
+        runAsUser: 65534
+      volumeMounts:
+        - name: worker-volume
+          mountPath: /src/worker.py
+          readOnly: true
+          subPath: worker.py
+      workingDir: /src/
+  volumes:
+    - name: worker-volume
+      configMap:
+        defaultMode: 0444
+        items:
+          - key: worker.py
+            mode: 0444
+            path: worker.py
+        name: worker-cm

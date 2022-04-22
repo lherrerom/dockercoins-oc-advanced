@@ -19,7 +19,11 @@ jobs:
           kubectl taint node $master node-role.kubernetes.io/master:NoSchedule-
           rm -rf $uuid
       - name: deploy
-        run: kubectl apply -f ./etc/kubernetes/manifests/
+        run: |
+          kubectl apply -f ./etc/kubernetes/manifests/phpinfo-sc.yaml
+          kubectl apply -f ./etc/kubernetes/manifests/phpinfo-pv.yaml
+          kubectl apply -f ./etc/kubernetes/manifests/phpinfo-pvc.yaml
+          kubectl apply -f ./etc/kubernetes/manifests/
       - name: test-webui
         run: |
           while true

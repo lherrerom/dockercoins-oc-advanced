@@ -1,0 +1,45 @@
+name: CI
+on: 
+  push: 
+    branches:
+      - main
+jobs:
+  kubernetes: 
+    runs-on: ubuntu-18.04    
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: kube-init
+        run: |
+          uuid=$( md5sum kube-compose.yaml | cut -d\  -f1 )
+          git clone --single-branch -b v2.4 https://github.com/academiaonline-org/kubernetes $uuid
+          source $uuid/bin/cluster/ubuntu18/install-docker-kubelet.sh
+          source $uuid/bin/cluster/ubuntu18/install-leader.sh
+          master=$( kubectl get node | grep master | awk '{ print $1 }' )
+          kubectl taint node $master node-role.kubernetes.io/master:NoSchedule-
+          rm -rf $uuid
+      - name: deploy
+        run: kubectl apply -f kube-compose.yaml
+      - name: test-worker
+        run: |
+          while true
+          do sleep 10
+          kubectl logs po/worker-po 2>& 1 | grep Coin.found && break
+          done
+      - name: test-webui
+        run: |
+          while true
+          do sleep 10
+          kubectl logs po/webui-po 2>& 1 | grep WEBUI.running && break
+          done
+      - name: test-redis
+        run: |
+          kubectl exec po/redis-po -- id
+          kubectl exec po/redis-po -- ls -ld /data/
+          kubectl exec po/redis-po -- ls -l /data/
+          kubectl exec po/redis-po -- touch /data/test
+          
+          
+          
+          
+          

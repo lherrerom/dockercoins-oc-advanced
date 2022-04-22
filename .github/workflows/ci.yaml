@@ -28,6 +28,12 @@ jobs:
           done
       - name: test-redis
         run: |
+          while true
+          do sleep 10
+          kubectl logs po/redis-po 2>& 1 | grep Ready.to.accept.connections && break
+          done
+      - name: test-redis
+        run: |
           kubectl logs po/redis-po 2>& 1
           kubectl exec po/redis-po -- id
           kubectl exec po/redis-po -- ls -ld /data/

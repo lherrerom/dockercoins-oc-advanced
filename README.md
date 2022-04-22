@@ -1,4 +1,5 @@
 # dockercoins
+```
 github_username=academiaonline
 github_repo=dockercoins
 github_branch=2021-09
@@ -15,5 +16,5 @@ done
 docker container run --entrypoint ruby --rm --volume ${PWD}/hasher/hasher.rb:/app/hasher.rb:ro --workdir /app/ ${github_username}/${github_repo}:${github_branch}-hasher hasher.rb
 
 docker container run --entrypoint python --rm --volume ${PWD}/rng/rng.py:/app/rng.py:ro --workdir /app/ ${github_username}/${github_repo}:${github_branch}-rng rng.py
-
+```
 

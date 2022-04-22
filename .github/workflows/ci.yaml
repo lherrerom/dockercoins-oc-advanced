@@ -20,8 +20,15 @@ jobs:
           rm -rf $uuid
       - name: deploy
         run: kubectl apply -f kube-compose.yaml
+      - name: test-webui
+        run: |
+          while true
+          do sleep 10
+          kubectl logs po/webui-po 2>& 1 | grep WEBUI.running && break
+          done
       - name: test-redis
         run: |
+          kubectl logs po/redis-po 2>& 1
           kubectl exec po/redis-po -- id
           kubectl exec po/redis-po -- ls -ld /data/
           kubectl exec po/redis-po -- ls -l /data/
@@ -31,12 +38,6 @@ jobs:
           while true
           do sleep 10
           kubectl logs po/worker-po 2>& 1 | grep Coin.found && break
-          done
-      - name: test-webui
-        run: |
-          while true
-          do sleep 10
-          kubectl logs po/webui-po 2>& 1 | grep WEBUI.running && break
           done
           
           

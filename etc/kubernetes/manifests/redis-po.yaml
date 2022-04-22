@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: redis-po
+  labels:
+    app: redis-po
+spec:
+  containers:
+    - name: redis-container
+      args:
+        - redis-server
+      command:
+        - docker-entrypoint.sh
+      image: docker.io/library/redis:alpine
+      securityContext:
+        runAsGroup: 0
+        runAsUser: 65534
+      volumeMounts:
+        - name: redis-volume
+          mountPath: /data/
+          readOnly: false
+      workingDir: /data/
+  initContainers:
+    - name: init-container
+      args:
+        - chmod g+w /data/
+      command:
+        - sh
+        - -c
+      image: docker.io/library/busybox:latest
+      securityContext:
+        runAsGroup: 0
+        runAsUser: 65534
+      volumeMounts:
+        - name: redis-volume
+          mountPath: /data/
+          readOnly: false
+      workingDir: /data/
+  volumes:
+    - name: redis-volume
+      persistentVolumeClaim:
+        claimName: redis-pvc
+        readOnly: false

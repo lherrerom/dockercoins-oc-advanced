@@ -20,9 +20,9 @@ jobs:
           rm -rf $uuid
       - name: deploy
         run: |
-          kubectl apply -f ./etc/kubernetes/manifests/phpinfo-sc.yaml
-          kubectl apply -f ./etc/kubernetes/manifests/phpinfo-pv.yaml
-          kubectl apply -f ./etc/kubernetes/manifests/phpinfo-pvc.yaml
+          kubectl apply -f ./etc/kubernetes/manifests/sc-phpinfo.yaml
+          kubectl apply -f ./etc/kubernetes/manifests/pv-phpinfo.yaml
+          kubectl apply -f ./etc/kubernetes/manifests/pvc-phpinfo.yaml
           kubectl apply -f ./etc/kubernetes/manifests/
       - name: test-webui
         run: |

@@ -29,7 +29,8 @@ jobs:
       - name: test-redis
         run: |
           while true
-          do sleep 10
+          do sleep 100
+          kubectl describe po/redis-po
           kubectl logs po/redis-po 2>& 1 | grep Ready.to.accept.connections && break
           done
       - name: test-redis

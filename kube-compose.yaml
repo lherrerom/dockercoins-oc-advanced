@@ -516,3 +516,4 @@ metadata:
   name: redis-sc
 provisioner: kubernetes.io/no-provisioner
 volumeBindingMode: WaitForFirstConsumer
+---

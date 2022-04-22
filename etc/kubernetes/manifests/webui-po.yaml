@@ -1,0 +1,55 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: webui-po
+  labels:
+    app: webui-po
+spec:
+  containers:
+    - name: webui-container
+      args:
+        - webui.js
+      command:
+        - node
+      image: docker.io/academiaonline/dockercoins:latest-webui
+      securityContext:
+        runAsGroup: 65534
+        runAsUser: 65534
+      volumeMounts:
+        - name: webui-files
+          mountPath: /src/files/
+          readOnly: true
+        - name: webui-volume
+          mountPath: /src/webui.js
+          readOnly: true
+          subPath: webui.js
+      workingDir: /src/
+  initContainers:
+    - name: webui-init-container
+      args:
+        - git clone --branch main --single-branch https://github.com/academiaonline/dockercoins ; cp -rv dockercoins/webui/files/* /src/files/
+      command:
+        - sh
+        - -c
+      image: bitnami/git:latest
+      securityContext:
+        runAsGroup: 65534
+        runAsUser: 65534
+      volumeMounts:
+        - name: webui-files
+          mountPath: /src/files/
+          readOnly: false
+      workingDir: /tmp/
+  volumes:
+    - name: webui-volume
+      configMap:
+        defaultMode: 0444
+        items:
+          - key: webui.js
+            mode: 0444
+            path: webui.js
+        name: webui-cm
+    - name: webui-files
+      emptyDir:
+        medium: Memory
+        sizeLimit: 1Mi

@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: rng-po
+  labels:
+    app: rng-po
+spec:
+  containers:
+    - name: rng-container
+      args:
+        - rng.py
+      command:
+        - python
+      image: docker.io/academiaonline/dockercoins:latest-rng
+      securityContext:
+        runAsGroup: 65534
+        runAsUser: 65534
+      volumeMounts:
+        - name: rng-volume
+          mountPath: /src/rng.py
+          readOnly: true
+          subPath: rng.py
+      workingDir: /src/
+  volumes:
+    - name: rng-volume
+      configMap:
+        defaultMode: 0444
+        items:
+          - key: rng.py
+            mode: 0444
+            path: rng.py
+        name: rng-cm

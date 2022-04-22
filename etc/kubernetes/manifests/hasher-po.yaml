@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hasher-po
+  labels:
+    app: hasher-po
+spec:
+  containers:
+    - name: hasher-container
+      args:
+        - hasher.rb
+      command:
+        - ruby
+      image: docker.io/academiaonline/dockercoins:latest-hasher
+      securityContext:
+        runAsGroup: 65534
+        runAsUser: 65534
+      volumeMounts:
+        - name: hasher-volume
+          mountPath: /src/hasher.rb
+          readOnly: true
+          subPath: hasher.rb
+      workingDir: /src/
+  volumes:
+    - name: hasher-volume
+      configMap:
+        defaultMode: 0444
+        items:
+          - key: hasher.rb
+            mode: 0444
+            path: hasher.rb
+        name: hasher-cm

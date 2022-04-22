@@ -20,6 +20,12 @@ jobs:
           rm -rf $uuid
       - name: deploy
         run: kubectl apply -f kube-compose.yaml
+      - name: test-redis
+        run: |
+          kubectl exec po/redis-po -- id
+          kubectl exec po/redis-po -- ls -ld /data/
+          kubectl exec po/redis-po -- ls -l /data/
+          kubectl exec po/redis-po -- touch /data/test
       - name: test-worker
         run: |
           while true
@@ -32,12 +38,6 @@ jobs:
           do sleep 10
           kubectl logs po/webui-po 2>& 1 | grep WEBUI.running && break
           done
-      - name: test-redis
-        run: |
-          kubectl exec po/redis-po -- id
-          kubectl exec po/redis-po -- ls -ld /data/
-          kubectl exec po/redis-po -- ls -l /data/
-          kubectl exec po/redis-po -- touch /data/test
           
           
           

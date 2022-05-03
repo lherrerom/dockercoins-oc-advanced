@@ -13,29 +13,29 @@ spec:
         - docker-entrypoint.sh
       image: docker.io/library/redis:alpine
       securityContext:
-        runAsGroup: 0
+        #runAsGroup: 0
         runAsUser: 65534
       volumeMounts:
         - name: redis-volume
           mountPath: /data/
           readOnly: false
       workingDir: /data/
-  initContainers:
-    - name: init-container
-      args:
-        - chmod g+w /data/
-      command:
-        - sh
-        - -c
-      image: docker.io/library/busybox:latest
-      securityContext:
-        runAsGroup: 0
-        runAsUser: 65534
-      volumeMounts:
-        - name: redis-volume
-          mountPath: /data/
-          readOnly: false
-      workingDir: /data/
+  #initContainers:
+  #  - name: init-container
+  #    args:
+  #      - chmod g+w /data/
+  #    command:
+  #      - sh
+  #      - -c
+  #    image: docker.io/library/busybox:latest
+  #    securityContext:
+  #      runAsGroup: 0
+  #      runAsUser: 65534
+  #    volumeMounts:
+  #      - name: redis-volume
+  #        mountPath: /data/
+  #        readOnly: false
+  #    workingDir: /data/
   volumes:
     - name: redis-volume
       emptyDir:

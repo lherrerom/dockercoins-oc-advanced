@@ -9,6 +9,16 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v2
+      - name: build-hasher
+        run: docker build -t docker.io/academiaonline/dockercoins:latest-hasher ./hasher/
+      - name: build-rng
+        run: docker build -t docker.io/academiaonline/dockercoins:latest-rng ./rng/
+      - name: build-webui
+        run: docker build -t docker.io/academiaonline/dockercoins:latest-webui ./webui/
+      - name: build-worker
+        run: docker build -t docker.io/academiaonline/dockercoins:latest-worker ./worker/
+      - name: list-build
+        run: docker images
       - name: kube-init
         run: |
           uuid=$( md5sum kube-compose.yaml | cut -d\  -f1 )

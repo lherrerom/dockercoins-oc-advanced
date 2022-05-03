@@ -38,6 +38,9 @@ spec:
       workingDir: /data/
   volumes:
     - name: redis-volume
-      persistentVolumeClaim:
-        claimName: redis-pvc
-        readOnly: false
+      emptyDir:
+        medium: Memory
+        sizeLimit: 100Mi
+      #persistentVolumeClaim:
+      #  claimName: redis-pvc
+      #  readOnly: false

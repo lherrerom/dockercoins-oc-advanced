@@ -2,7 +2,7 @@
 
 branch=2021-11-axia
 github_repo=dockercoins
-github_user=academiaonline-org
+github_user=sebastian-colomar
 tag=latest
 
 git clone --branch ${branch} --single-branch https://github.com/${github_user}/${github_repo}

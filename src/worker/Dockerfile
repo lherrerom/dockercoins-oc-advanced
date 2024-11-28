@@ -1,4 +1,4 @@
 FROM python:alpine
-RUN pip install Redis requests && apk add redis
+RUN pip install Redis requests
 COPY worker.py .
 CMD python worker.py

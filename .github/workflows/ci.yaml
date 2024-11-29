@@ -32,7 +32,7 @@ jobs:
           kubectl apply -f src/hasher/hasher-cm.yaml
           kubectl apply -f src/hasher/hasher-deploy.yaml
           kubectl apply -f src/hasher/hasher-svc.yaml
-          kubectl apply -f src/redis/redis.yaml
+          kubectl apply -f src/redis/redis-pv.yaml
           kubectl apply -f src/rng/rng.yaml
           kubectl apply -f src/webui/webui.yaml
           kubectl apply -f src/worker/worker.yaml

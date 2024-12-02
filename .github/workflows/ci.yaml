@@ -11,8 +11,6 @@ jobs:
         uses: actions/checkout@v2
       - name: build-hasher
         run: docker build -t localhost/hasher src/hasher/
-      - name: build-redis
-        run: docker build -t localhost/redis src/redis/        
       - name: build-rng
         run: docker build -t localhost/rng src/rng/
       - name: build-webui

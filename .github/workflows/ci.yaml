@@ -33,9 +33,17 @@ jobs:
           kubectl apply -f src/hasher/hasher-deploy.yaml
           kubectl apply -f src/hasher/hasher-svc.yaml
           kubectl apply -f src/redis/redis-pv.yaml
-          kubectl apply -f src/rng/rng.yaml
-          kubectl apply -f src/webui/webui.yaml
-          kubectl apply -f src/worker/worker.yaml
+          kubectl apply -f src/redis/redis-sc.yaml
+          kubectl apply -f src/redis/redis-sts.yaml
+          kubectl apply -f src/redis/redis-svc.yaml          
+          kubectl apply -f src/rng/rng-cm.yaml
+          kubectl apply -f src/rng/rng-ds.yaml
+          kubectl apply -f src/rng/rng-svc.yaml
+          kubectl apply -f src/webui/webui-cm.yaml
+          kubectl apply -f src/webui/webui-deploy.yaml
+          kubectl apply -f src/webui/webui-svc.yaml
+          kubectl apply -f src/worker/worker-cm.yaml
+          kubectl apply -f src/worker/worker-deploy.yaml
       - name: test-webui
         run: |
           while true
